@@ -1,0 +1,16 @@
+wheel
+
+# Django
+django
+djangorestframework
+django-cors-headers
+django-filter
+geocoder
+djangorestframework-gis
+django-markdown
+
+# PostgreSQL
+psycopg2
+
+# Auto documentation
+drf-yasg[validation]

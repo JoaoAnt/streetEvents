@@ -1,0 +1,8 @@
+mypy
+flake8
+black
+ipykernel
+pylint
+fire
+autopep8
+httpie

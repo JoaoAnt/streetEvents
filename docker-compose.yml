@@ -1,0 +1,23 @@
+# Specifies which syntax version of Docker compose
+version: '3'
+
+# Build a multiservice arhitecture.
+
+version: '3.8'
+
+services:
+  # # Create a service called web
+  web:
+    # Build an image from the files in the project root directory (Dockerfile)
+    build: .
+    #command: python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
+    command: python streetEvent/manage.py runserver 0.0.0.0:8000
+    container_name: djangoRest
+    volumes:
+      - .:/streetEvent/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: mdillon/postgis
