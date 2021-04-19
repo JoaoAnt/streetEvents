@@ -1,10 +1,11 @@
-from django.test import TestCase
-from rest_framework.test import APIClient
-from rest_framework import status
-from django.core.urlresolvers import reverse
-from .models import Event
 from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APIClient
 
+from events.models import Event
+from rest_framework.test import APIRequestFactory
 
 class ModelTestCase(TestCase):
     """This class defines the test suite for the event model."""
@@ -23,10 +24,6 @@ class ModelTestCase(TestCase):
         new_count = Event.objects.count()
         self.assertNotEqual(old_count, new_count)
 
-    def test_model_returns_readable_representation(self):
-        """Test a readable string is returned for the model instance."""
-        self.assertEqual(str(self.event), self.description)
-
 
 class ViewsTestCase(TestCase):
     """Test suite for the api views."""
@@ -41,46 +38,28 @@ class ViewsTestCase(TestCase):
 
         # Since user model instance is not serializable, use its Id/PK
         self.event_data = {'description': 'Go to Ibiza', 'owner': user.id}
-        self.response = self.client.post(
-            reverse('create'),
-            self.event_data,
-            format="json")
+        self.response = self.client.post('/events/', self.event_data, format='json')
 
     def test_api_can_create_a_event(self):
-        """Test the api has bucket creation capability."""
+        """Test the api has creation capability."""
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
 
-    def test_authorization_is_enforced(self):
+    def test_authorization_not_needed_get(self):
         """Test that the api has user authorization."""
         new_client = APIClient()
-        res = new_client.get('/events/', kwargs={'pk': 3, 'state': 'VALIDATED'}, format="json")
-        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
-
-    def test_api_can_get_a_event(self):
-        """Test the api can get a given event."""
-        event = Event.objects.get(id=1)
-        response = self.client.get(
-            '/events/',
-            kwargs={'pk': event.id}, format="json")
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertContains(response, event)
-
-    def test_api_can_update_event(self):
-        """Test the api can update a given event."""
-        event = Event.objects.get()
-        change_event = {'description': 'Something new'}
-        res = self.client.put(
-            reverse('details', kwargs={'pk': event.id}),
-            change_event, format='json'
-        )
+        res = new_client.get('/events/', kwargs={'pk': 3}, format="json")
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
-    def test_api_can_delete_event(self):
-        """Test the api can delete a event."""
-        event = Event.objects.get()
-        response = self.client.delete(
-            reverse('details', kwargs={'pk': event.id}),
-            format='json',
-            follow=True)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_authorization_needed_post2(self):
+        """Test that the api has user authorization."""
+        new_client = APIClient()
+        res = new_client.post('/events/', kwargs={'pk': 3, 'description':'Nothing special'}, format="json")
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_authorization_needed_post(self):
+        """Test that the api has user authorization."""
+        new_client = APIClient()
+        user = User.objects.create(username="nerd3")
+        res = new_client.post('/events/', kwargs={'pk': 3, 'description':'Nothing special', 'state': 'VALIDATED', 'owner': user.id}, format="json")
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)

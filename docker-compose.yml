@@ -10,11 +10,14 @@ services:
   web:
     # Build an image from the files in the project root directory (Dockerfile)
     build: .
-    #command: python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
-    command: python streetEvent/manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "python streetEvent/manage.py makemigrations &&
+             python streetEvent/manage.py migrate &&
+             python streetEvent/manage.py runserver 0.0.0.0:8000"
+    #command: python streetEvent/manage.py runserver 0.0.0.0:8000
     container_name: djangoRest
     volumes:
-      - .:/streetEvent/
+      - .:/streetEvent
     ports:
       - "8000:8000"
     depends_on:

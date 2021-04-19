@@ -27,5 +27,5 @@
     - DONE Create a collection of Endpoints
 
 ## Day 19 Apr
-    - DONE Test for all endpoints
+    - DONE Test for model and for endpoints that require authentication 
 

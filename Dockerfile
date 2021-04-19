@@ -8,4 +8,4 @@ ADD requirements.txt /streetEvent/
 
 RUN apt update && apt install -y gdal-bin libgdal-dev python3-gdal && pip install --upgrade pip && pip install -r requirements.txt
 
-ADD . /streetEvent/
+COPY ./streetEvent streetEvent
