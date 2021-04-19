@@ -42,6 +42,17 @@ One weekend backend django with PostGis Project.
     ```bash
         $ docker-compose run web python manage.py magemigrations
     ```
+
+## Authentication & User Creation
+* HTTP Authorization Scheme	`basic`
+
+* Admin users should be created using:
+    ```bash
+        $ docker-compose run web python manage.py createsuperuser
+    ```
+* Non-Admin users can be created in POST `users/`
+
+
 ## API Endpoints
 * Dynamic documentation
 - '/swagger'
@@ -50,10 +61,28 @@ One weekend backend django with PostGis Project.
 * Static Documentation
 - '/swagger.json'
 - '/swagger.yaml'
+- '/swagger?format=openapi'
 
 * Authentication
 - '/api-auth'
 
 * Events Endpoints
-- '/events'
-- '/events/pk'
+- '/events/' - GET, POST
+- '/events/{id}/' - GET, PUT, PATCH, DELETE
+
+* Users Endpoints
+- '/users/' - GET, POST
+- '/users/{id}' - GET, PUT, PATCH, DELETE
+
+### Filters
+- '/events':
+    - Query filter on `state`, `owner`, `category` and `page`.
+    - Query in url filter in `lat`, `lng` and `rnd` (the `rnd` is optional, the other two required to use this query).
+This filter can be used simultaneously, here are some examples is request URL:
+* `http://127.0.0.1:8000/events/?state=To%20Validate`
+* `http://127.0.0.1:8000/events/?lat=50&lng=10&rnd=18`
+* `http://127.0.0.1:8000/events/?lat=50&lng=10&rnd=18&state=To%Validate`
+
+- '/users':
+    - Search Query filter on `username` and `email address`.
+

@@ -23,9 +23,9 @@
     - DONE Use the docker image selected
     - DONE Auto Documentation swagger, swagger.json, swagger.yaml, redoc
     - DONE Place everything into Git
+    - DONE Create instructions in how to open the project and notes on README
+    - DONE Create a collection of Endpoints
 
-    - Test for all endpoints
-    - Create instructions in how to open docker image and README
-    - Create a collection of Postman
+## Day 19 Apr
+    - DONE Test for all endpoints
 
-    Extra to the Required:

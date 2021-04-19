@@ -5,9 +5,11 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Street Occurrences",
+      title="Street Events",
       default_version='v1',
-      description="One weekend backend django with PostGis Project.",
+      description="""One weekend backend django with PostGis Project.
+      
+Where any one can see an event, loggin users can create an event, owner and admins can update or delete the event and admins can change is state.""",
       contact=openapi.Contact(email="joaoantant@gmail.com"),
    ),
    public=True,
