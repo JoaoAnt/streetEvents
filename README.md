@@ -1,7 +1,7 @@
 # Street Occurrences
 One weekend backend django with PostGis Project.
 
-## Technologies used
+## Used Technologies
 * [Django](https://www.djangoproject.com/): The web framework for perfectionists with deadlines (Django builds better web apps with less code).
 * [DRF](www.django-rest-framework.org/): A powerful and flexible toolkit for building Web APIs
 * [Docker](https://www.docker.com/): Empowering App Development for Developers
@@ -30,20 +30,8 @@ One weekend backend django with PostGis Project.
 ## Testing
 * Run the command:
     ```bash
-        $ docker-compose run web python streetEvent/manage.py test
         $ docker-compose run --rm web sh -c "python streetEvent/manage.py test events"
     ```
-
-## Database Related commands
-* Make Migrations:
-    ```bash
-        $ docker-compose run web python streetEvent/manage.py magemigrations
-    ```
-* Migrate:
-    ```bash
-        $ docker-compose run web python streetEvent/manage.py magemigrations
-    ```
-
 ## Authentication & User Creation
 * HTTP Authorization Scheme	`basic`
 
@@ -51,7 +39,7 @@ One weekend backend django with PostGis Project.
     ```bash
         $ docker-compose run web python streetEvent/manage.py createsuperuser
     ```
-* Non-Admin users can be created in POST `users/`
+* Non-Admin users can be created in POST `/users/` or through manage.py
 
 
 ## API Endpoints
@@ -86,8 +74,8 @@ One weekend backend django with PostGis Project.
 
 ### Filters
 - `/events`:
-    - Query filter on `state`, `owner`, `category` and `page`.
-    - Query in url filter in `lat`, `lng` and `rnd` (the `rnd` is optional, the other two required to use this query).
+    - Query on `state`, `owner`, `category` and `page`.
+    - Query in url in `lat`, `lng` and `rnd` (the `rnd` is optional, the other two are required to use this query).
 
 This filter can be used simultaneously, here are some examples is request URL:
 ```
@@ -96,5 +84,5 @@ http://127.0.0.1:8000/events/?lat=50&lng=10&rnd=18
 http://127.0.0.1:8000/events/?lat=50&lng=10&rnd=18&state=To%Validate
 ```
 - `/users`:
-    - Search Query filter on `username` and `email address`.
+    - Search Query on `username` and `email address`.
 
